@@ -1,4 +1,5 @@
 const jsonFile = require('jsonfile');
+const { parseNumbers } = require('xml2js/lib/processors');
 const getSign = require('../util/sign');
 
 const user = {
@@ -27,7 +28,7 @@ const user = {
           // forceRefreshToken: 0, //不用管
           // access_token: "6B0C62126368CA1ACE16C932C679747E", //access_token
           // refresh_token: "25BACF1650EE2592D06BCC19EEAD7AD6", //refresh_token
-          musicid: uin, //uin或者web_uin 微信没试过
+          musicid: convertToNumber(uin), //uin或者web_uin 微信没试过
           musickey: qm_keyst || qqmusic_key, //key
         },
       },
@@ -479,3 +480,14 @@ const user = {
 };
 
 module.exports = user;
+
+function convertToNumber(str) {
+  // 使用正则表达式检查字符串是否为数字
+  if (/^-?\d*\.?\d+$/.test(str)) {
+      // 使用 parseFloat 将字符串转换为浮点数
+      return parseNumbers(str);
+  } else {
+      // 如果不是数字，则返回原始字符串
+      return str;
+  }
+}
